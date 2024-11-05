@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About | MRLabs</title>
+        <!-- Link to CSS-->
+         <link rel="stylesheet" href="style.css">
+         <!-- Box Icons-->
+         <link rel="stylesheet"
+         href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+         <!-- Google Fonts-->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geologica:wght@100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@550&display=swap" rel="stylesheet">
+    </head>
+    <body class="about">
+        <header class="geologica-header header_article" style="background-image: url('media/header.png'); background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100%;">
+            <!-- Top navigation -->
+            <div class="topnav">
+                <!-- Left-aligned links (default) -->
+                <div class="topnav-left">
+                    <a href="index.html"><img class="small_logo" src="media/TinyLogo-cropped.svg" style="vertical-align: center;"></a>
+                </div>
+                
+
+                <!-- Centered link -->
+                <div class="topnav-centered">
+                    <div class="dropdown">
+                        <button class="dropbtn geologica-header">Articles</button>
+                        <div class="dropdown-content">
+                            <a href="polling.html">Why are the Polls So Weird?</a>
+                            <a href="virginia_elections.html">Abstracting Virginia's Elections</a>
+                            <a href="stresstest.html">Stress Testing the Electoral College</a>
+                        </div>
+                    </div>
+                    <a href="#" >About</a>
+                </div>
+            
+                
+            
+                <!-- Right-aligned links -->
+                <div class="topnav-right">
+                    <a href="javascript:void(0)" class="nav-link" id="subscribeBtn"><i class='bx bxs-envelope'></i> Subscribe</a>
+                </div>
+            </div>
+        </header>
+        <!-- Popup box -->
+        <div id="popupForm" class="popup">
+            <div class="popup-content">
+                <span class="close-btn">&times;</span>
+                <h1 class="libre-baskerville" style="font-size: 150%;">Subscribe to our Newsletter</h1>
+                <p class="center libre-baskerville">You'll get notified whenever we release a new article:</p>
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="libre-baskerville">
+                <button type="submit" id="submitBtn" class="libre-baskerville" style="font-size: 150%;">Subscribe</button>
+            </div>
+        </div>
+
+        <!-- Popup box for thank you message -->
+        <div id="thankYouPopup" class="popup">
+            <div class="popup-content">
+                <span class="close-btn thank-you-close">&times;</span>
+                <h2 class="libre-baskerville">Thank you for subscribing!</h2>
+            </div>
+        </div>
+
+        <main class="content about_content">
+            <div class="col_container" style="position: relative; width: 100%;">
+                <div class="col_item col_item_left">
+                    <article class="libre-baskerville">
+                        <h1>About Me</h1>
+                        <p>Hi there, my name is Michael. I’m a Mathematics major from the University of Virginia with a passion for data analysis. I’ve had the pleasure of working with many different kinds of math and love to find ways to apply that to the real world. I’m especially interested in the fields of topology and geometry, with a specific interest in knot theory. I’m a believer in lifelong learning, and as such this website is just as much a learning experiment for me as it is a way for me to share my love for math with the world.</p>
+                        <p>On the side I’m a rower. I got my start at Briar Woods High School in Ashburn, Virginia where I rowed for 4 years. I continued my journey to the University of Virginia and loved every moment of it. From competing at national championships and races all across the country to overseas regattas in Switzerland and England, there is no place that I’m happier than when I’m on the water. I currently reside in Washington, D.C. and am a member of Potomac Boat Club.</p>
+                        <p></p>
+                    </article>
+                </div>
+                <div class="col_item col_item_right" style="padding-top: 3%;"">
+                    <img class="center img-border" src="media/IMG_2108_Original.JPG" alt="Michael Picture" style="width:60%; border-radius:50%;">
+                    <p class="center"><a href="https://github.com/mrl8fu" target="_blank"><i class='bx bxl-github' style="font-size:400%;"></i></a><a href="https://www.linkedin.com/in/michael-leon-4950a0229" target="_blank"><i class='bx bxl-linkedin-square' style="font-size: 400%;"></i></a><a href="mailto:mleon915491@gmail.com" target="_blank"><i class='bx bxl-gmail' style="font-size:400%;"></i></a></p>
+                </div>
+            </div>
+        </main>
+        <footer class="footer geologica-footer about_footer">
+            <ul class="footer_items l-center">
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://github.com/mrl8fu" target="_blank"><i class='bx bxl-github link_image_footer' style="font-size:180%;vertical-align: middle;"></i> GitHub | @mrl8fu</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://www.linkedin.com/in/michael-leon-4950a0229" target="_blank"><i class='bx bxl-linkedin-square' style="font-size: 180%;vertical-align: middle;"></i> LinkedIn | Michael Leon</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="mailto:mleon915491@gmail.com" target="_blank"><i class='bx bxl-gmail' style="font-size:180%;vertical-align:middle;"></i> Email | mleon915491@gmail.com</a>
+                </li>
+
+            </ul>
+        </footer>
+    </body>
+    <script src="js/subscribe.js"></script>
+</html>

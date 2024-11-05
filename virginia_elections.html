@@ -1,0 +1,238 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Abstracting Virginia's Elections | MRLabs</title>
+        <!-- Link to CSS-->
+         <link rel="stylesheet" href="style.css">
+         <!-- Box Icons-->
+         <link rel="stylesheet"
+         href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+         <!-- Google Fonts-->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geologica:wght@100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@550&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header class="geologica-header header_article" style="background-image: url('media/header.png'); background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100%;">
+            <!-- Top navigation -->
+            <div class="topnav">
+                <!-- Left-aligned links (default) -->
+                <div class="topnav-left">
+                    <a href="index.html"><img class="small_logo" src="media/TinyLogo-cropped.svg" style="vertical-align: center;"></a>
+                </div>
+                
+
+                <!-- Centered link -->
+                <div class="topnav-centered">
+                    <div class="dropdown">
+                        <button class="dropbtn geologica-header">Articles</button>
+                        <div class="dropdown-content">
+                            <a href="polling.html">Why are the Polls So Weird?</a>
+                            <a href="#">Abstracting Virginia's Elections</a>
+                            <a href="stresstest.html">Stress Testing the Electoral College</a>
+                        </div>
+                    </div>
+                    <a href="about.html" >About</a>
+                </div>
+            
+                
+            
+                <!-- Right-aligned links -->
+                <div class="topnav-right">
+                    <a href="javascript:void(0)" class="nav-link" id="subscribeBtn"><i class='bx bxs-envelope'></i> Subscribe</a>
+                </div>
+            </div>
+        </header>
+
+        <div id="popupForm" class="popup">
+            <div class="popup-content">
+                <span class="close-btn">&times;</span>
+                <h1 class="libre-baskerville" style="font-size: 150%;">Subscribe to our Newsletter</h1>
+                <p class="center libre-baskerville">You'll get notified whenever we release a new article:</p>
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="libre-baskerville">
+                <button type="submit" id="submitBtn" class="libre-baskerville">Subscribe</button>
+            </div>
+        </div>
+
+        <!-- Popup box for thank you message -->
+        <div id="thankYouPopup" class="popup">
+            <div class="popup-content">
+                <span class="close-btn thank-you-close">&times;</span>
+                <h2 class="libre-baskerville" style="font-size: 150%;">Thank you for subscribing!</h2>
+            </div>
+        </div>
+
+        <main class="content">
+            <div class="col_container" style="position: relative; width: 100%;">
+                <div class="col_item col_item_left">
+                    <article class="libre-baskerville">
+                        <h1>Abstracting Virginia's Election Data</h1>
+                        <hr width="15%">
+                        <p class="center">27 Oct 2024</p>
+                        
+                        <p>Have you ever looked at an election map and thought: How can I make this more confusing? Probably not. But that’s what I’m here to do today. In the world of data science and mathematics, there’s a subfield known as Topological Data Analysis (TDA). What it aims to do is to break down the rigidity of large sets of data to have a look at the underlying shape. In doing so we can get a better look at patterns across the data set, where holes might appear, and if perhaps the shape of the data is actually something else in disguise. Don’t worry, this article won’t require that you know much math, but it is important to lay some groundwork to understand what’s going on. </p>
+                        <h2>A Crash Course in TDA:</h2>
+                        <p>First, some definitions. We call a set of data points a “metric space” if there’s some notion of distance between the points. For example, if our data set was every town in the United States we would call this a metric space because we can calculate the geographic distance between them. Next, in order to build out the shape of our data, we need to understand three things: vertices (plural of vertex), simplices (plural of simplex), and complexes (plural of complex). Let’s break each of these down:</p>
+                        <ul class="paragraph_list">
+                            <li>A vertex is just a point in our data set. In our above example this would be an individual town.</li>
+                            <li>A simplex is a collection of vertices. These vertices connect with lines (if there are 2 vertices), triangles (if there are 3), tetrahedrons (if there are 4), and so on. Yes, this does mean that there will be some higher dimensional simplices, but all we’re going to be doing is looking at them as 2 dimensional representations. A singleton (one element set) is also a simplex.</li>
+                            <li>A complex is a collection of simplices. This could mean just one simplex or it could mean many simplices.</li>
+                        </ul>
+                        <p>Let’s run through an easy example to get warmed up. Suppose we have 4 vertices: v1, v2, v3, v4. A simplex would be a set of some of these, such as {v1, v2}, or {v1, v3, v4}. It could be a set of just one, like {v2}, or it could be a set of all of them {v1, v2, v3, v4}. A complex would then be a set of these simplices, such as {{v1},  {v2}, {v3}, {v4}, {v1, v2}, {v2, v3}, {v3, v4}, {v2, v4} {v2, v3, v4}}.</p>
+                        <p>We have one additional rule for a complex. Every simplex must have its base components included as well. What this means is that if {v3, v4} is a simplex in the complex, then {v3} and {v4} must be as well. You can verify on your own that our above example meets this requirement.</p>
+                        <p>One of the most common kinds of complexes you’ll see is what is called a Vietoris-Rips complex [1]. The way it is set up is that some particular distance is chosen, we call this epsilon. In our metric space, any collection of points that are less than epsilon distance from one another are included as a simplex. We can verify that this meets our definition and rules for being a complex (if 3 points are all less than epsilon from one another, then it is only logical that each individual set of 2 points is also less than epsilon from each other). However, there are many different ways to create complexes based on different setups to meet the requirements and needs of different data sets.</p>
+                        <h2>Looking at Virginia's Election Results:</h2>
+                        <p>We’ll be taking a look at what shape the election data of Virginia takes. More specifically, we’ll be breaking it down county by county and grouping based on proximity and political party. So, let’s lay the foundation.</p>
+                        <p>First, we’re going to define a binary homogeneous symmetric relation between counties to describe the borders. These are big words, all this means is that if county A borders county B, then county B borders county A, and that this relationship is only looking at the set of counties we’re interested in. Next, we’ll look at how each county voted. We’ll assign a binary value, 0 or 1, to indicate this. If a county leaned Republican we assign it a 0, if it leaned Democrat we assign it a 1. This is, in essence, all we need.</p>
+                        <p>We’re going to create two complexes, one for Democrats and one for Republicans. If counties border each other and voted the same way, we create a simplex between them, otherwise they remain a standalone vertex. Here is what this looks like for the 2020 election:</p>
+                        <div class="row">
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2020_0.png" alt="Republican Map 2020">
+                                <figcaption class="center">Republican Voting Complex 2020</figcaption>
+                            </figure>
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2020_1.png" alt="Democrat Map 2020">
+                                <figcaption class="center">Democrat Voting Complex 2020</figcaption>
+                            </figure>
+                        </div>
+                        <p>If we look at the actual <a href= "https://www.politico.com/2020-election/results/virginia/">map</a> we can get an idea of what these vertices and simplices actually correspond to. For example, on the republican side, the lonesome pair of vertices on the left is Southampton and Isle of Wight, while the lone vertex in the top left is Accomack County. We can go ahead and create maps for 2016 and 2012's elections as well:</p>
+                        <div class="row">
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2016_0.png" alt="Republican Map 2020">
+                                <figcaption class="center">Republican Voting Complex 2016</figcaption>
+                            </figure>
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2016_1.png" alt="Democrat Map 2020">
+                                <figcaption class="center">Democrat Voting Complex 2016</figcaption>
+                            </figure>
+                        </div>
+                        <div class="row">
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2012_0.png" alt="Republican Map 2020">
+                                <figcaption class="center">Republican Voting Complex 2012</figcaption>
+                            </figure>
+                            <figure>
+                                <img class="img-border-small" src="media/VirginiaElections/VA2012_1.png" alt="Democrat Map 2020">
+                                <figcaption class="center">Democrat Voting Complex 2012</figcaption>
+                            </figure>
+                        </div>
+                        <p>These graphs on their own, while maybe pretty to look at depending on who you ask, don’t really tell us much. We can make some very vague observations about the overall shape, such as that the Democrat vote is in small pockets that are often surrounded by Republicans, whereas the Republicans have a much more connected voting body. This isn’t novel, but it certainly is interesting to see it represented this way.</p>
+                        <p>So how can we get useful data? Notice in our graphs how we have all these different components. Some are connected trees, some look like webs of points, and others are standalone vertices. Taking a closer look at these webs, we can see that sometimes they have holes in them. So if our question is how are these shapes changing election to election, a good place to start is there. How are the components of our graph changing?</p>
+                        <p>Introducing Betti Numbers. In topology, these are used to describe the number of n-dimensional holes in an object. If given as a list, the first element would be the number of connected components, the second element would be the number of 1-dimensional holes, the third the number of 2-dimensional holes, and so on. Because we're looking at flat graphs, we only really care about those first two numbers.</p>
+                        <p>Let's flesh this out a little bit more, and add in all presidential elections from the past 30 years. In our data, we get the following Betti Numbers:</p>
+                        <table class="libre-baskerville">
+                            <tr>
+                                <th></th>
+                                <th class="header_cell_repub" colspan="2">Republican</th>
+                                <th class="header_cell_demo" colspan="2">Democrat</th>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">Year</th>
+                                <th class="header_cell">b<sub>0</sub></th>
+                                <th class="header_cell">b<sub>1</sub></th>
+                                <th class="header_cell">b<sub>0</sub></th>
+                                <th class="header_cell">b<sub>1</sub></th>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2020</th>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>13</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2016</th>
+                                <td>4</td>
+                                <td>5</td>
+                                <td>19</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2012</th>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>17</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2008</th>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>19</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2004</th>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>16</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">2000</th>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>15</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th class="header_cell">1996</th>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>19</td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                        <p>Now, with some actual data behind it, we can start to make some observations. The number of connected components for Republicans has stayed fairly constant the last few election cycles, but the number of holes jumped up considerably in 2016 and stayed higher in 2020. From this we can guess that there have been an increase in counties leaning Democratic in the middle of Republican strongholds throughout the state. On the Democrat side, we can see that the number of connected components dropped considerably between 2016 and 2020. Without the voting data it might be easy to misconstrue this as less people voting Democratically, however we know that this is not the case. Instead, it would appear that perhaps Democratic regions of the state may be growing into larger and larger pockets that are brushing up against each other.</p>
+                        <h2>What Else Can We Do With This?</h2>
+                        <p>I believe that this approach could lead to a lot of interesting results and insights, and that this article is only just beginning to scratch the surface. With much larger datasets, one could backdate all of Virginia's election data to analyze the much broader trends over the state's history. It might be fruitful to include midterm election results as well. On a larger scale, it would be possible to use this approach to view the country as a whole, to see how its voting has changed and how it might continue to change. After all, our country is a union of states, and seeing how these patterns play out on the big stage would be very interesting.</p>
+                        <p>This is just one approach to this process, too. There are many different ways to approach creating the simplicial complexes, such as using geographic data, perhaps using population size to determine epsilon balls around counties for forming a Vietoris-Rips complex. I hope to explore these ideas more in future articles.</p>
+                        <p>As always, all code and sources used for this project are available. I encourage you to play around with this yourself and see what you might find.</p>
+                    </article>
+                </div>
+                <div class="col_item col_item_right" style="padding-top:5%">
+                    <article class="libre-baskerville">
+                        <h2 class="center">Links to all sources and datasets:</h2>
+                        <ul>
+                            <p><a href="https://www.jeremykun.com/2015/08/06/cech-vietoris-rips-complex/" target="_blank">[1]</a> A wonderfully done explanation of Vietoris-Rips complexes.</p>
+                            <p><a href="https://www.politico.com/2020-election/results/virginia/" target="_blank">[2]</a> Virginia Polling data for 2020 by Politico.</p>
+                            <p><a href="https://www.youtube.com/playlist?list=PL8erL0pXF3JaR4no7ivppQ5zwhq2QnzzQ">[3]</a> A YouTube Playlist by Professors Robert Ghrist and Vidit Nanda teaching the foundations of TDA, which partially inspired this article.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/80871/">[4]</a> Virginia Historical Election Data for 2016.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/44930/">[5]</a> Virginia Historical Election Data for 2012.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/39050/">[6]</a> Virginia Historical Election Data for 2008.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/41055/">[7]</a> Virginia Historical Election Data for 2004.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/39517/">[8]</a> Virginia Historical Election Data for 2000.</p>
+                            <p><a href="https://historical.elections.virginia.gov/elections/view/34787/">[9]</a> Virginia Historical Election Data for 1996.</p>
+                            <p><a href="https://en.wikipedia.org/wiki/Betti_number">[10]</a> Wikipedia article explaining Betti Numbers.</p>
+                            <p></p>
+                            <p class="center">Check out the GitHub for this project to get the code and cleaned up dataset:</p>
+                            <p></p>
+                            <p class="center"><a href="https://github.com/mrl8fu/VotingTopology" target="_blank"><i class='bx bxl-github' style="font-size:400%;"></i></a></p>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer geologica-footer">
+            <ul class="footer_items l-center">
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://github.com/mrl8fu" target="_blank"><i class='bx bxl-github link_image_footer' style="font-size:180%;vertical-align: middle;"></i> GitHub | @mrl8fu</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://www.linkedin.com/in/michael-leon-4950a0229" target="_blank"><i class='bx bxl-linkedin-square' style="font-size: 180%;vertical-align: middle;"></i> LinkedIn | Michael Leon</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="mailto:mleon915491@gmail.com" target="_blank"><i class='bx bxl-gmail' style="font-size:180%;vertical-align:middle;"></i> Email | mleon915491@gmail.com</a>
+                </li>
+
+            </ul>
+        </footer>
+        
+    </body>
+    <script src="js/subscribe.js"></script>
+</html>

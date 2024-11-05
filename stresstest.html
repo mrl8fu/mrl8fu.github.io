@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stress Testing the Electoral College | MRLabs</title>
+        <!-- Link to CSS-->
+         <link rel="stylesheet" href="style.css">
+         <!-- Box Icons-->
+         <link rel="stylesheet"
+         href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+         <!-- Google Fonts-->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geologica:wght@100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@550&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <header class="geologica-header header_article" style="background-image: url('media/header.png'); background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100%;">
+            <!-- Top navigation -->
+            <div class="topnav">
+                <!-- Left-aligned links (default) -->
+                <div class="topnav-left">
+                    <a href="index.html"><img class="small_logo" src="media/TinyLogo-cropped.svg" style="vertical-align: center;"></a>
+                </div>
+                
+
+                <!-- Centered link -->
+                <div class="topnav-centered">
+                    <div class="dropdown">
+                        <button class="dropbtn geologica-header">Articles</button>
+                        <div class="dropdown-content">
+                            <a href="polling.html">Why are the Polls So Weird?</a>
+                            <a href="virginia_elections.html">Abstracting Virginia's Elections</a>
+                            <a href="#">Stress Testing the Electoral College</a>
+                        </div>
+                    </div>
+                    <a href="about.html" >About</a>
+                </div>
+            
+                
+            
+                <!-- Right-aligned links -->
+                <div class="topnav-right">
+                    <a href="javascript:void(0)" class="nav-link" id="subscribeBtn"><i class='bx bxs-envelope'></i> Subscribe</a>
+                </div>
+            </div>
+        </header>
+        <!-- Popup box -->
+        <div id="popupForm" class="popup">
+            <div class="popup-content">
+                <span class="close-btn">&times;</span>
+                <h1 class="libre-baskerville" style="font-size: 150%;">Subscribe to our Newsletter</h1>
+                <p class="center libre-baskerville">You'll get notified whenever we release a new article:</p>
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="libre-baskerville">
+                <button type="submit" id="submitBtn" class="libre-baskerville">Subscribe</button>
+            </div>
+        </div>
+
+        <!-- Popup box for thank you message -->
+        <div id="thankYouPopup" class="popup">
+            <div class="popup-content">
+                <span class="close-btn thank-you-close">&times;</span>
+                <h2 class="libre-baskerville" style="font-size: 150%;">Thank you for subscribing!</h2>
+            </div>
+        </div>
+        
+        <main class="content">
+            <div class="col_container" style="position: relative; width: 100%;">
+                <div class="col_item col_item_left">
+                    <article class="libre-baskerville">
+                        <h1>Stress Testing the Electoral College</h1>
+                        <hr width="15%">
+                        <p class="center">24 Oct 2024</p>
+                        <p>
+                                Election season is here, with millions of Americans having already submitted their ballots for who will be the next president of the United States. The race to 270 is on. Every election cycle, and increasingly with each one, the legitimacy and usefulness of our Electoral College system is called into question. This is true now more than ever, with more than 60% of Americans saying that they would like to move away from the electoral college system [1]. There is real change in the works to see this change come to light as well, with the advent of the National Popular Vote Interstate Compact, which at the time of writing has 17 states and the District of Columbia on board, representing 209 electoral votes. This compact, introduced in 2006, would see that whoever is the winner of the popular vote would receive the electoral votes of the states involved, or in other words once sufficiently many states sign on such that the compact represents a majority of the electoral college, our country would effectively be operating on a popular vote system. At the time of writing, there are 538 electors up for grabs, making 270 electors the majority needed.
+                        </p>
+                        <p>
+                                Why the need? The electoral college is baked into our constitution, with the idea being to not disenfranchise or mitigate the voices of those in smaller or less populous states. The compact seeks to circumvent this issue, hinging on the language used by the founding fathers which lays out that states may allocate their electors how they deem fit. Since its inception, demographics have shifted and more states have been established, and in its current state we now see a drastic difference in the sway that voices in different states have in the election. Using voting data from the United States Census Bureau, we see that as of the November, 2022 election, there are roughly 386,000 registered voters per elector in Michigan, compared to roughly 91,000 registered voters per elector in Wyoming. This means that, respective to their electors, a voter from Wyoming has 4.24 times the amount of sway in the election than a voter in Michigan. This difference is only exacerbated when we introduce actual voter turnout, which gives us 317,000 and 71,000 respectively, or a scalar of 4.46. The idea behind the compact, then is to normalize the value per vote, i.e. making one vote be just that.
+                        </p>
+                        <p>
+                                Winning the popular vote and losing the election is a real possibility. In fact, it has happened twice in the last few decades. Al Gore won the popular vote in the 2000 election by 537,000 votes, and yet lost in the electoral college 266-271. Most notably was the 2016 election, in which Hillary Clinton won the popular vote by over 2.86 million votes, and yet lost to Donald Trump 227-304. To test the absurdity of what the current system is capable of, I ran it through a number of tests:
+                        </p>
+                        <h2>Test 1: Worst Possible Case</h2>
+                        <p> First, we suppose we have exactly two parties, say Democrats and Republicans, and no other candidate exists. We also assume full voter turnout. Once again, these numbers were taken from the United States Census Bureau from the November 2022 Election. So, our first test asks: “How many votes can a candidate get while still losing the election?” Say we want Democrats to win the popular vote and Republicans to win the electoral college. To do this, we apportion the states with the highest voters per electors to the Democrats until the democrats are just below 270 electoral votes and winning any other state would push them above. For each state that the Democrats win, we assume that they won 100% of the vote there as well. For all of the rest of the states, we have the Republicans win the electoral vote, but only receiving 1,000 more votes than the Democrats in that state. This approach ignores recount laws, as well as neglects the congressional districts in Maine and Nebraska, instead having every state use a winner-takes-all method. The numbers we get are as follows: we get that the Democrats attain 125,403,000 votes and the Republicans attain 36,020,000 votes, or a difference of 89,383,000 votes with the Republicans winning the Electoral College 270-268. Our map ends up looking like this:
+                        </p>
+                        <a href="https://www.270towin.com/maps/DL03V" target="_blank"><img src="https://www.270towin.com/map-images/DL03V.png" class="center"></a>
+                        <p></p>
+                        <h2>Test 2: Actual Voter Turnout Numbers</h2>
+                        <p>Now, obviously 100% voter turnout is a near impossibility, so our next step is to get a bit more realistic. What if we use actual voter turnout numbers? Surprisingly, or maybe not so surprisingly, our map doesn’t change at all. The difference using our same method, however, becomes 95,577,000 votes for the Democrats, compared to the Republicans’ 26,340,000 votes, or a difference of 69,237,000 votes.
+                        </p>
+                        <h2>Test 3: Introducing Nebraska and Maine's Congressional Districts</h2>
+                        <p>Here, we have a discrepancy. The U.S. Census Bureau reports that Nebraska had 933,000 registered voters in the November 2022 election, however the Nebraska Secretary of State’s page reports 1,243,000 voters [3]. For the sake of this section, we are going to replace the original Nebraska’s data with this updated number. The way Nebraska’s electoral college works is that each of the three congressional districts has its own elector, decided by the popular vote for that district, with a further two electors designated to the winner of the popular vote for the whole state.
+                        </p>
+                        <p>Maine operates a similar way, just with two congressional districts instead of three. Using data from the Maine Bureau of Corporations, Elections, and Commissions, we get a reported 955,000 registered voters as of June 11, 2024, which is going to have to do in order to get detailed congressional district-specific voting numbers. This is an increase of roughly 100,000 voters from the U.S. Census Bureau’s reported 856,000 voters in November 2022.</p>
+                        <p>Nebraska, this election cycle, had threatened to get rid of their congressional district electoral system, in theory giving an extra elector to the GOP, who have historically lost it the Democrats in the 2nd congressional district. Maine decided to counter this by threatening to dissolve theirs as well, which would effectively take back that elector, as the 1st congressional district in Maine tends to vote red, whereas the state as a whole is blue. So, how does having these electoral districts in place change anything? Well, it doesn’t. You see, both Maine and Nebraska in our hypothetical election were already red, and giving any more votes to the Democrats would flip them, which we can’t have. The most we’d be able to flip would be three electoral votes - one from Maine and two from Nebraska - without sacrificing the entire state, and we’d need to allocate votes very carefully to ensure that the popular vote for both still go to the Democratic candidate. The problem, however, is that only 6 states and the District of Columbia have three electors, all of which are already with the GOP, so we can’t flip any congressional districts without having the Dems win the election. </p>
+                        <p>So it would seem we’ve found our worst case scenario. In a completely hypothetical election in which each person votes in such a way that not only produces this absurd outcome but also challenges decades of voting data, it is theoretically possible for a candidate to win the popular vote by nearly 90 million votes while still losing the electoral college. 
+                        </p>
+                        <p>If you would like to learn more about the National Popular Vote Interstate Compact, you can visit <a href="https://www.nationalpopularvote.com/" target="_blank">their website</a>. The latest presidential polls have Harris eking out a win in the popular vote, whereas the electoral college is pretty much neck and neck and will come down to a handful of votes in a handful of states. Write your legislators and get out and vote.
+                        </p>    
+                    </article>
+                </div>
+                <div class="col_item col_item_right" style="padding-top:5%;">
+                    <article class="libre-baskerville">
+                        <h2 class="center">Links to all sources and datasets:</h2>
+                        <ul>
+                            <p><a href="https://www.pewresearch.org/short-reads/2024/09/25/majority-of-americans-continue-to-favor-moving-away-from-electoral-college/" target="_blank">[1]</a> Report by Pew Research showing that a majority of Americans favor moving away from the electoral college system.</p>
+                            <p><a href="https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-586.html" target="_blank">[2]</a> Voting data for the November 2022 Election from the United States Census Bureau.</p>
+                            <p><a href="https://sos.nebraska.gov/sites/default/files/doc/elections/vrstats/2022VR/Congressional-District-November-2022.pdf" target="_blank">[3]</a> Nebraska Registered Voters as of November 2022 by Congressional District.</p>
+                            <p><a href="https://www.nytimes.com/interactive/2022/11/08/us/elections/results-nebraska-governor.html?action=click&pgtype=Article&state=default&module=election-results&context=election_recirc&region=RaceLink" target="_blank">[4]</a> New York Times Nebraska Voting data in the November 2022 Election by county (used to get voter turnout by congressional district).</p>
+                            <p><a href="https://www.maine.gov/sos/cec/elec/data/data-pdf/2024/Reg%20&%20Enr%20as%20of%206-11-24%20pdf%20(A).pdf" target="_blank">[5]</a> Registered Voters in Maine by Municipality.</p>
+                            <p><a href="https://www.maine.gov/sos/cec/elec/results/2022/Rep%20to%20Congress%20Dist.%201.xlsx" target="_blank">[6]</a> Maine election results November 2022 for Congressional District 1 (used to obtain voter turnout for Maine's first congressional district).</p>
+                            <p><a href="https://www.maine.gov/sos/cec/elec/results/2022/reptocongress2-1.xlsx" target="_blank">[7]</a> Maine election results November 2022 for Congressional District 2 (used to obtain voter turnout for Maine's second congressional district).</p>
+                            <p><a href="https://www.britannica.com/topic/electoral-college" target="_blank">[8]</a> Brittanica information about historical electoral college results.</p>
+                            <p><a href="https://www.nationalpopularvote.com/" target="_blank">[9]</a> National Popular Vote Interstate Compact website.</p>
+                            <p><a href="https://www.270towin.com/maps/DL03V" target="_blank">[10]</a> 270 To Win map.</p>
+                            <p></p>
+                            <p class="center">Check out the GitHub for this project to get the code and cleaned up dataset:</p>
+                            <p></p>
+                            <p class="center"><a href="https://github.com/mrl8fu/StressTestEC" target="_blank"><i class='bx bxl-github' style="font-size:400%;"></i></a></p>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer geologica-footer">
+            <ul class="footer_items l-center">
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://github.com/mrl8fu" target="_blank"><i class='bx bxl-github link_image_footer' style="font-size:180%;vertical-align: middle;"></i> GitHub | @mrl8fu</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="https://www.linkedin.com/in/michael-leon-4950a0229" target="_blank"><i class='bx bxl-linkedin-square' style="font-size: 180%;vertical-align: middle;"></i> LinkedIn | Michael Leon</a>
+                </li>
+                <li class="footer_item">
+                    <a class="footer_icon" href="mailto:mleon915491@gmail.com" target="_blank"><i class='bx bxl-gmail' style="font-size:180%;vertical-align:middle;"></i> Email | mleon915491@gmail.com</a>
+                </li>
+
+            </ul>
+        </footer>
+        
+        
+    </body>
+    <script src="js/subscribe.js"></script>
+    
+</html>
