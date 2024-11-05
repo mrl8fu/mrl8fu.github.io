@@ -462,6 +462,19 @@ td:nth-child(odd){
     background-color: #e0e0e0;
   }
 
+  td { 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
+}
+th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+table { 
+    table-layout:fixed;
+}
+
 /* Handle Vertical Mobile Viewing*/
 @media only screen and (max-width : 480px) and (orientation:portrait){
     body {
@@ -520,6 +533,9 @@ td:nth-child(odd){
     }
     .dropdown-content a{
         font-size: 2vw;
+    }
+    table {
+        font-size: 90%;
     }
 }
 
