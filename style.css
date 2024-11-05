@@ -350,7 +350,7 @@ h4 {
 }
 
 .preview_container{
-    padding-bottom: 10%;
+    padding-bottom: 5%;
     margin-inline: 10%;
     margin-block: 2rem;
     display: inline-flex;
@@ -500,7 +500,6 @@ table {
     .preview_container {
         display:block;
         margin: auto;
-        margin-bottom: 25px;
     }
     .preview_container_left {
         width: 80%;
@@ -564,7 +563,7 @@ table {
       .preview_container {
           display:block;
           margin: auto;
-          margin-bottom: 25px;
+          
       }
       .preview_container_left {
           width: 80%;
@@ -634,8 +633,7 @@ table {
     .preview_container{
         display:block;
         margin:auto;
-        margin-bottom:5px;
-        margin-top:5px;
+        
     }
     /* For Article Preview Styling on Home Page */
     .preview_container_left {
