@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>Welcome to Michael Richard Labs</h1>
+    <p>This website is dedicated to all things data. It emphasizes analyzing political and economic data in a different light, seeking to use new approaches to tackle the nation's current problems.</p>
+    <p>My goals are to discover the beauty and elegance at the heart of many large datasets, to uncover and present any truth and information hiding beneath the surface.</p>
+    <p>Follow along to see what we might find.</p>
+    <h2 style="text-align: center;">Check out our most recent articles:</h2>
+    {% for article in articles %}
+    <div class="article-preview">
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.get_excerpt }}</p>
+        <a href="{% url 'article_detail' article.id %}">Read More</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

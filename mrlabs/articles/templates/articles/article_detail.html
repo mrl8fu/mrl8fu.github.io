@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block content %}
+<div class="main">
+    <div class="article article_content">
+        <div>
+            <h1>{{ article.title }}</h1>
+            <p><em>Written by {{ article.author }} on {{ article.date_written }}</em></p>
+            <p style="font-size:smaller;color:#777777">Updated on {{ article.updated_at|date:"F j, Y" }}</p>
+            <p>{{ article.content|safe }}</p>
+        </div>
+    </div>
+
+    <div class="sidebar_article_previews article">
+        <h1>Other Articles</h1>
+        {% for item in articles|slice:":3" %}
+        {% if item.id is not article.id %}
+        <div class="article-preview">
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.get_excerpt }}</p>
+            <a href="{% url 'article_detail' item.id %}">Read More</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
+

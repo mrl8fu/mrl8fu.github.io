@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Django Site{% endblock %}</title>
+    <!-- Box Icons-->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geologica:wght@100..900&&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Small Header-->
+    <header class="top-header mobile:hidden">
+        <div style="width:70%; justify-self: center;">
+            <ul style="text-align:left; width:100%;">
+                <li >
+                    Dark Mode
+                    <label class="switch" style="vertical-align: middle;">
+                        <input type="checkbox" id="darkmode" onclick="updateDarkMode()">
+                        <span class="slider round"></span>
+                    </label>
+                </li> 
+                <li><label id="current-date" style="float:right;"></label></li>
+            </ul>
+        </div>
+    </header>
+    <!-- Header Section -->
+    <header class="site-header">
+        <nav style="width:70%; justify-self: center;">
+            <div style="width:100%">
+                <ul>
+                    <li><a href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class='bx bx-menu-alt-left' style="font-size:150%; vertical-align:middle;"></i></a></li>
+                    <li><a href="{% url 'index' %}"><img src="{% static 'media/TinyLogo-cropped.svg' %}" alt="Tiny Logo" style="width:40px;vertical-align: middle;"></a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'article_list' %}">Articles</a></li>
+                    <li><a href="{% url 'about' %}" class="mobile:hidden">About</a></li>
+                    <div class="searchbox mobile:hidden">
+                        <i class='bx bx-search' style="padding-left:2px;padding-right:2px;vertical-align:middle;"></i>
+                        <input type="text" placeholder="Search.." style="vertical-align:auto;">
+                    </div>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+     <!-- Sidebar -->
+    <div class="sidenav" id="mySidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a href="/">Home</a>
+        <hr>
+		<a href="#">Login</a>
+        <a href="javascript:void(0)" id="subscribeBtn">Subscribe</a>
+		<a href="{% url 'about' %}">About</a>
+        <hr>
+        <a href="javascript:void(0)" id="darkmode_sidebar" onclick="updateDarkMode()">Dark Mode</a>
+	</div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <ul class="footer_items l-center">
+            <li class="footer_item">
+                <a class="footer_icon" href="https://github.com/mrl8fu" target="_blank"><i class='bx bxl-github link_image_footer' style="font-size:180%;vertical-align: middle;"></i> GitHub | @mrl8fu</a>
+            </li>
+            <li class="footer_item">
+                <a class="footer_icon" href="https://www.linkedin.com/in/michael-leon-4950a0229" target="_blank"><i class='bx bxl-linkedin-square' style="font-size: 180%;vertical-align: middle;"></i> LinkedIn | Michael Leon</a>
+            </li>
+            <li class="footer_item">
+                <a class="footer_icon" href="mailto:mleon915491@gmail.com" target="_blank"><i class='bx bxl-gmail' style="font-size:180%;vertical-align:middle;"></i> Email | mleon915491@gmail.com</a>
+            </li>
+        </ul>
+    </footer>
+
+    <!-- Popup box -->
+    <div id="popupForm" class="popup">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h1>Subscribe to our Newsletter</h1>
+            <p>You'll get notified whenever we release a new article:</p>
+            <input type="email" id="email" name="email" placeholder="Enter your email">
+            <button type="submit" id="submitBtn">Subscribe</button>
+        </div>
+    </div>
+
+    <!-- Popup box for thank you message -->
+    <div id="thankYouPopup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn thank-you-close">&times;</span>
+            <h2>Thank you for subscribing!</h2>
+        </div>
+    </div>
+
+</body>
+<script src="{% static 'js/base.js' %}"></script>
+</html>

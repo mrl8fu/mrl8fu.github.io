@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Article List{% endblock %}
+
+{% block content %}
+<!-- Tags Header -->
+<header class="tags">
+    <div class="tag-buttons">
+        Filter:
+        {% for tag in all_tags %}
+            <button class="tag-button" data-tag="{{ tag.slug }}">{{ tag.name }}<i class='bx bx-plus' style="vertical-align: middle;"></i></button>
+        {% endfor %}    
+    </div>
+</header>
+
+<div class="main">
+    <h1>Current Articles</h1>
+    {% for article in articles %}
+    <div class="article-preview" data-tags="{% for tag in article.tags.all %}{{ tag.slug }},{% endfor %}"">
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.get_excerpt }}</p>
+        <a href="{% url 'article_detail' article.id %}">Read More</a>
+        <p>Tags: 
+            {% for tag in article.tags.all %}
+                <span>{{ tag.name }}</span>
+            {% endfor %}
+        </p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    // JavaScript to handle tag filtering
+    const tagButtons = document.querySelectorAll('.tag-button');
+    const articles = document.querySelectorAll('.article-preview');
+    const activeTags = new Set();
+
+    tagButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tag = this.dataset.tag;
+
+            // Toggle tag selection
+            if (activeTags.has(tag)) {
+                activeTags.delete(tag);
+                this.classList.remove('active');
+            } else {
+                activeTags.add(tag);
+                this.classList.add('active');
+            }
+            filterArticles();
+        });
+    });
+
+    function filterArticles() {
+        // Convert the set of active tags into an array
+        const activeTagsArray = Array.from(activeTags);
+        console.log("active tags " + activeTagsArray);
+
+        articles.forEach(article => {
+            const articleTags = article.dataset.tags.split(',');
+            console.log(articleTags);
+            
+            // Check if the article has all the selected tags
+            const matches = activeTagsArray.every(tag => article.dataset.tags.split(',').includes(tag));
+            console.log(article.dataset.tags.split(','));
+            console.log(matches);
+
+            // Show the article if it matches or if no tags are selected
+            if (matches || activeTagsArray.length === 0) {
+                article.style.display = '';
+            } else {
+                article.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+
+{% endblock %}
+
